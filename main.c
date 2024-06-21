@@ -110,27 +110,41 @@ ManoCartas *crearMano()
   return mano; // Retorna la mano de cartas
 }
 
+// Función para comprobar si una clave ya está en el arreglo, osea, que ya está en el mapa
+int claveExistente(int *arreglo, int tamaño, int num) {
+  for (int i = 0; i < tamaño; i++) {
+    if (arreglo[i] == num) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 // Funcion encargada de revolver una baraja de cartas
 void revolverBaraja(Stack *baraja)
 {
-  /* Se establece una semilla para el generador de numeros aleatorios,
-     en este caso se usara la hora local*/
+  //Se establece una semilla para el generador de numeros aleatorios, en este caso se usara la hora local
   srand(time(NULL));
+  int tamañoBaraja = 0;
 
   // Inicializa un mapa ordenado para almacenar las cartas
   Map *barajaDesordenada = sorted_map_create(lower_than);
+  int *clavesUsadas = malloc(sizeof(int) * 52);
+  int contadorClaves = 0;
 
   // Mientras haya cartas en la baraja
   while (stack_top(baraja) != NULL)
   {
-    Carta *carta = (Carta *)stack_top(baraja);
-    stack_pop(baraja); // Saca la carta de la baraja
+    Carta *carta = (Carta *)stack_pop(baraja);
 
-    int *num = (int *)malloc(sizeof(int));
-    *num = rand() % 1000; // Genera un numero aleatorio entre 1 y 1000
+    int *clave = (int *)malloc(sizeof(int));
+    do {
+      *clave = rand() % 1000;
+    } while (claveExistente(clavesUsadas, contadorClaves, *clave)); // Asegura que la clave sea unica
 
-    // Almacena la carta en el mapa ordenado
-    map_insert(barajaDesordenada, num, carta);
+    clavesUsadas[contadorClaves++] = *clave;
+
+    map_insert(barajaDesordenada, clave, carta);
   }
 
   // Mientras haya cartas en el mapa ordenado
@@ -142,9 +156,12 @@ void revolverBaraja(Stack *baraja)
     map_remove(barajaDesordenada, map_first(barajaDesordenada)->key);
     // La agrega a la baraja
     stack_push(baraja, carta);
+    tamañoBaraja++;
   }
-  map_clean(barajaDesordenada); // Limpia el mapa
-  free(barajaDesordenada); // Libera la memoria usada por el mapa
+  map_clean(barajaDesordenada);
+  free(barajaDesordenada);
+  free(clavesUsadas);
+  printf("Baraja revuelta con %d cartas:\n", tamañoBaraja);
 }
 
 // Funcion encargada de retornar un stack con todas las cartas de una baraja inglesa
@@ -174,6 +191,14 @@ void iniciarPartida()
   // Inicializa la baraja de cartas inglesas y la revuelve
   Stack *baraja = iniciarBaraja();
   revolverBaraja(baraja);
+  
+  int i = 1;
+  while (stack_top(baraja) != NULL)
+  {
+    Carta *carta = (Carta *)stack_pop(baraja);
+    printf("%s %s %i\n", carta->palo, carta->valor, i);
+    i++;
+  }
 
   // Inicializa las manos del jugador y de la maquina
   ManoCartas *manoJugador = crearMano();
@@ -191,15 +216,17 @@ void iniciarPartida()
   printf("jugador: %i\n", manoJugador->sumaValor);
   printf("maquina: %i\n", manoMaquina->sumaValor);
   //Muestra baraja revuelta
-  printf("Baraja revuelta:\n");
+  /*printf("Baraja revuelta:\n");
   int i = 1;
-  while (stack_top(baraja) != NULL)
+  Carta *carta = (Carta *)stack_top(baraja);
+  while (carta != NULL)
   {
-    Carta *carta = (Carta *)stack_top(baraja);
+    //Carta *carta = (Carta *)stack_top(baraja);
     printf("%s %s %i\n", carta->palo, carta->valor, i);
-    stack_pop(baraja);
+    //stack_pop(baraja);
+    carta = (Carta *)list_next(baraja);
     i++;
-  }
+  }*/
 
   /*
   char opcion;
