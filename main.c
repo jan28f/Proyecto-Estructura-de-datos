@@ -8,8 +8,6 @@
 #include <string.h>
 #include <time.h>
 
-// asdjlfleiwjfeil
-
 // Estructura de una carta
 typedef struct
 {
