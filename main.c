@@ -32,7 +32,7 @@ int lower_than(void* key1, void* key2)
 
 /* Funcion para mostrar en consola el estado de la partida al jugador,
    mostrando sus cartas y puntaje y la informacion disponible del crupier*/
-void infoPartida(ManoCartas *jugador, ManoCartas *maquina, int turnoCrupier)
+void infoPartida(ManoCartas *jugador, ManoCartas *crupier, int turnoCrupier)
 {
   limpiarPantalla();
   printf("===============================\n");
@@ -53,30 +53,30 @@ void infoPartida(ManoCartas *jugador, ManoCartas *maquina, int turnoCrupier)
   
   printf("Puntaje del Crupier: ");
   if (turnoCrupier) // Si es el turno del crupier
-    printf("%i\n", maquina->sumaValor);
+    printf("%i\n", crupier->sumaValor);
   else // Si no es el turno del crupier
     printf("?\n");
   // Se muestran las cartas del crupier
   printf("Cartas del Crupier: \n\n");
-  carta = (Carta *)list_first(maquina->cartas);
+  carta = (Carta *)list_first(crupier->cartas);
   if (turnoCrupier) // Si es el turno del crupier
   {
     // Se muestran todas sus cartas
     while (carta != NULL)
     {
       printf("  - %s de %s\n", carta->valor, carta->palo);
-      carta = (Carta *)list_next(maquina->cartas);
+      carta = (Carta *)list_next(crupier->cartas);
     }
   }
   else // Si no es el turno del crupier
   {
     // Se muestra una carta y se oculta la ultima
     printf("  - %s de %s\n", carta->valor, carta->palo);
-    carta = (Carta *)list_next(maquina->cartas);
+    carta = (Carta *)list_next(crupier->cartas);
     while (carta != NULL)
     {
       printf("  - ???\n");
-      carta = (Carta *)list_next(maquina->cartas);
+      carta = (Carta *)list_next(crupier->cartas);
     }
   }
   printf("\n");
