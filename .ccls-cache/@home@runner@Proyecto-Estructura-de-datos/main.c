@@ -90,7 +90,7 @@ void infoPartida(ManoCartas *jugador, ManoCartas *crupier, int turnoCrupier)
 }
 
 // Funcion encargada de sacar una carta de la baraja y agregarla a una mano
-void tomarCarta(Stack *baraja, ManoCartas *mano)
+void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
 {
   // Saca la carta de la baraja y la agrega a la mano del jugador
   Carta *carta = stack_pop(baraja);
@@ -101,15 +101,25 @@ void tomarCarta(Stack *baraja, ManoCartas *mano)
     mano->sumaValor += 10;
   else if (!strcmp(carta->valor, "A"))
   {
-    // Se ajusta el puntaje de los ases (11 puntos por defecto) de acuerdo al valor de la mano
-    // Si la mano es mayor a 21, se le resta 10 al puntaje de los ases
-    if (mano->sumaValor + 11 > 21)
-      mano->sumaValor += 1;
-    // Si la mano es menor o igual a 21, se mantiene el puntaje de los ases
-    else if (mano->sumaValor + 11 <= 21)
-      mano->sumaValor += 11;
-    else // Si la mano siempre es mayor a 21, se mantiene el puntaje de los ases
-      mano->sumaValor += 11;
+    if (turno) // Si es el turno del jugador
+    {
+      printf("¿Quieres que tu as valga 1 o 11?\n");
+      int valorAs;
+      scanf("%d", &valorAs);
+      while (valorAs != 1 && valorAs != 11)
+      {
+        printf("Valor inválido, ingresa 1 o 11\n");
+        scanf("%d", &valorAs);
+      }
+      mano->sumaValor += valorAs;
+    }
+    else // Si es el turno del crupier
+    {
+      if (mano->sumaValor + 11 > 21)
+        mano->sumaValor += 1;
+      else
+        mano->sumaValor += 11;
+    }
   }
   else
     mano->sumaValor += atoi(carta->valor);
@@ -265,9 +275,9 @@ void iniciarPartida()
   for (int i = 0 ; i < 2 ; i++)
   {
     // Saca una carta de la baraja y la almacena en la mano del jugador
-    tomarCarta(baraja, manoJugador);
+    tomarCarta(baraja, manoJugador, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
-    tomarCarta(baraja, manoCrupier);
+    tomarCarta(baraja, manoCrupier, 0);
   }
 
   printf("Mano jugador: %i\n", manoJugador->sumaValor);
@@ -288,10 +298,10 @@ void iniciarPartida()
   }*/
 
   
- /* char opcion;
+  char opcion;
   do
   {
-    infoPartida(manoJugador, manoMaquina, 0);
+    infoPartida(manoJugador, manoCrupier, 0);
     puts("Opciones del jugador:");
 
     puts("1) Tomar carta");
@@ -305,7 +315,7 @@ void iniciarPartida()
     switch (opcion)
     {
       case '1':
-        tomarCarta(baraja, manoJugador);
+        tomarCarta(baraja, manoJugador, 1);
         printf("Se ha agregado una carta a tu mano\n");
         break;
       case '2':
