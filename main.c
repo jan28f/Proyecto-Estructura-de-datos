@@ -221,7 +221,7 @@ void iniciarPartida()
   ManoCartas *manoJugador = crearMano();
   ManoCartas *manoCrupier = crearMano();
 
-  // Reparte las cartas iniciales al jugador y a la maquina
+  // Reparte las cartas iniciales al jugador y al crupier
   for (int i = 0 ; i < 2 ; i++)
   {
     // Saca una carta de la baraja y la almacena en la mano del jugador
