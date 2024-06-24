@@ -123,7 +123,6 @@ ManoCartas *crearMano()
   // Inicializa los valores de la mano de cartas
   mano->cartas = list_create();
   mano->sumaValor = 0;
-  mano->numAses = 0;
 
   return mano; // Retorna la mano de cartas
 }
