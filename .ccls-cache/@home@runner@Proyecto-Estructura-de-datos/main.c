@@ -98,8 +98,10 @@ void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
 
   // Suma el puntaje de la carta a la mano del jugador
   if (!strcmp(carta->valor, "J") || !strcmp(carta->valor, "Q") || !strcmp(carta->valor, "K"))
-    mano->sumaValor += 10;
-  else if (!strcmp(carta->valor, "A"))
+  {
+        mano->sumaValor += 10;
+  }
+  if (!strcmp(carta->valor, "A"))
   {
     if (turno) // Si es el turno del jugador
     {
@@ -211,44 +213,59 @@ Stack *iniciarBaraja()
   return stack; // Retorna el stack con todas las cartas de la baraja
 }
 
-// Función para determinar el ganador
-int determinarGanador(ManoCartas *jugador, ManoCartas *crupier) 
+void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
 {
-    if (jugador->sumaValor > 21) 
-    {
-        printf("Te has pasado de 21. Has perdido.\n");
-        return 1;
-    } 
-    else if (crupier->sumaValor > 21) 
-    {
-        printf("El crupier se ha pasado de 21. Has ganado.\n");
-        return 1;
-    }
-    else if (jugador->sumaValor == 21) 
-    {
-        printf("¡Blackjack! Has ganado.\n");
-        return 1;
-    } 
-    else if (crupier->sumaValor == 21) {
-        printf("El crupier ha conseguido un Blackjack. Has perdido.\n");
-        return 1;
-    } 
-    else if (jugador->sumaValor == crupier->sumaValor) 
-    {
-        printf("Empate.\n");
-        return 1;
-    } 
-    else if (jugador->sumaValor > crupier->sumaValor) 
-    {
-        printf("Tienes un puntaje mayor. Has ganado.\n");
-        return 1;
-    } 
-    else if (crupier->sumaValor > jugador->sumaValor) 
-    {
-        printf("El crupier tiene un puntaje mayor. Has perdido.\n");
-        return 1;
-    }
-    return 0; // El juego continua
+  // Mostrar puntajes finales
+  printf("\nPuntaje final del Jugador: %d\n", jugador->sumaValor);
+  printf("Puntaje final del Crupier: %d\n", crupier->sumaValor);
+
+  // Mostrar cartas finales del jugador
+  printf("\nTus cartas: \n");
+  Carta *carta = (Carta *)list_first(jugador->cartas);
+  while (carta != NULL)
+  {
+    printf("  - %s de %s\n", carta->valor, carta->palo);
+    carta = (Carta *)list_next(jugador->cartas);
+  }
+
+  // Mostrar cartas finales del crupier
+  printf("\nCartas del Crupier: \n");
+  carta = (Carta *)list_first(crupier->cartas);
+  while (carta != NULL)
+  {
+    printf("  - %s de %s\n", carta->valor, carta->palo);
+    carta = (Carta *)list_next(crupier->cartas);
+  }
+
+  // Verificar resultados
+  if (jugador->sumaValor > 21)
+  {
+    printf("\nTe has pasado de 21. El Crupier gana.\n");
+  }
+  else if (crupier->sumaValor > 21)
+  {
+    printf("\nEl Crupier se ha pasado de 21. ¡Tú ganas!\n");
+  }
+  else if (jugador->sumaValor == 21) 
+  {
+     printf("\n¡Blackjack! Has ganado.\n");
+  }    
+  else if (crupier->sumaValor == 21) 
+  {
+    printf("\nEl crupier ha conseguido un Blackjack. Has perdido.\n");
+  } 
+  else if (jugador->sumaValor > crupier->sumaValor)
+  {
+    printf("\n¡Tú ganas con %d contra %d del Crupier!\n", jugador->sumaValor, crupier->sumaValor);
+  }
+  else if (jugador->sumaValor < crupier->sumaValor)
+  {
+    printf("\nEl Crupier gana con %d contra %d tuyos.\n", crupier->sumaValor, jugador->sumaValor);
+  }
+  else
+  {
+    printf("\nEs un empate con %d puntos.\n", jugador->sumaValor);
+  }
 }
 
 void iniciarPartida()
