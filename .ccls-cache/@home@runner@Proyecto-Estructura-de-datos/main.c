@@ -201,6 +201,37 @@ Stack *iniciarBaraja()
   return stack; // Retorna el stack con todas las cartas de la baraja
 }
 
+// Función para determinar el ganador del juego
+int determinarGanador(ManoCartas *jugador, ManoCartas *crupier)
+{
+  if (jugador->sumaValor > 21)
+  {
+    printf("¡Has perdido! Te has pasado de 21.\n");
+    return 1; // Juego terminado
+  }
+  else if (crupier->sumaValor > 21)
+  {
+    printf("¡Has ganado! El crupier se ha pasado de 21.\n");
+    return 1; // Juego terminado
+  }
+  else if (jugador->sumaValor > crupier->sumaValor)
+  {
+    printf("¡Has ganado! Tu puntaje es mayor que el del crupier.\n");
+    return 1; // Juego terminado
+  }
+  else if (jugador->sumaValor < crupier->sumaValor)
+  {
+    printf("¡Has perdido! El puntaje del crupier es mayor que el tuyo.\n");
+    return 1; // Juego terminado
+  }
+  else if (jugador->sumaValor == crupier->sumaValor)
+  {
+    printf("¡Es un empate!\n");
+    return 1; // Juego terminado
+  }
+  return 0; // El juego continúa
+}
+
 void iniciarPartida()
 {
   limpiarPantalla();
@@ -247,8 +278,8 @@ void iniciarPartida()
     i++;
   }*/
 
-  /*
-  char opcion;
+  
+ /* char opcion;
   do
   {
     infoPartida(manoJugador, manoMaquina, 0);
@@ -276,13 +307,14 @@ void iniciarPartida()
         printf("Has retirado de la partida, perdiste\n");
         return;
     }
-  } while (opcion != '2'); */
+  } while (opcion != '2');
   // Muestra las cartas iniciales del jugador y de la maquina
 }
 
 // Funcion encargada de leer y mostrar el archivo de texto con las instrucciones del juego
 void mostrarTutorial()
 {
+  limpiarPantalla();
   // Se abre el archivo de texto con las instrucciones del juego
   FILE *archivo = fopen("tutorial.txt", "r");
   if (archivo == NULL) // Si no se encuentra el archivo de texto
