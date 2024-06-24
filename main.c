@@ -178,7 +178,7 @@ void revolverBaraja(Stack *baraja)
   map_clean(barajaDesordenada);
   free(barajaDesordenada);
   free(clavesUsadas);
-  printf("Baraja revuelta con %d cartas:\n", tamañoBaraja);
+  //printf("Baraja revuelta con %d cartas:\n", tamañoBaraja);
 }
 
 // Funcion encargada de retornar un stack con todas las cartas de una baraja inglesa
@@ -210,28 +210,30 @@ void iniciarPartida()
   revolverBaraja(baraja);
   
   int i = 1;
-  while (stack_top(baraja) != NULL)
+  /*while (stack_top(baraja) != NULL)
   {
     Carta *carta = (Carta *)stack_pop(baraja);
     printf("%s %s %i\n", carta->palo, carta->valor, i);
     i++;
-  }
+  }*/
 
-  // Inicializa las manos del jugador y de la maquina
+  // Inicializa las manos del jugador y del crupier
   ManoCartas *manoJugador = crearMano();
-  ManoCartas *manoMaquina = crearMano();
+  ManoCartas *manoCrupier = crearMano();
 
   // Reparte las cartas iniciales al jugador y a la maquina
   for (int i = 0 ; i < 2 ; i++)
   {
     // Saca una carta de la baraja y la almacena en la mano del jugador
     tomarCarta(baraja, manoJugador);
-    // Saca una carta de la baraja y la almacena en la mano de la maquina
-    tomarCarta(baraja, manoMaquina);
+    // Saca una carta de la baraja y la almacena en la mano del crupier
+    tomarCarta(baraja, manoCrupier);
   }
 
-  printf("jugador: %i\n", manoJugador->sumaValor);
-  printf("maquina: %i\n", manoMaquina->sumaValor);
+  printf("Mano jugador: %i\n", manoJugador->sumaValor);
+  printf("Mano crupier: %i\n", manoCrupier->sumaValor);
+
+ 
   //Muestra baraja revuelta
   /*printf("Baraja revuelta:\n");
   int i = 1;
@@ -278,18 +280,27 @@ void iniciarPartida()
   // Muestra las cartas iniciales del jugador y de la maquina
 }
 
-void mostrarTutorial() {
+// Funcion encargada de leer y mostrar el archivo de texto con las instrucciones del juego
+void mostrarTutorial()
+{
+  // Se abre el archivo de texto con las instrucciones del juego
   FILE *archivo = fopen("tutorial.txt", "r");
-  if (archivo == NULL) {
+  if (archivo == NULL) // Si no se encuentra el archivo de texto
+  {
     printf("Error al abrir el archivo de tutorial.\n");
-    return;
+    return; // Se finaliza la funcion
   }
+
+  // Variable para almacenar el contenido de una linea del archivo de texto
   char linea[256];
+  /* Se consigue una linea del archivo de texto y se imprime en pantalla,
+     hasta que no haya mas lineas*/
   while (fgets(linea, sizeof(linea), archivo) != NULL) {
     printf("%s", linea);
   }
   printf("\n");
-  fclose(archivo);
+  
+  fclose(archivo); // Se cierra el archivo de texto
 }
 
 int main()
