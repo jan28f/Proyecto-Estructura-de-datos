@@ -102,18 +102,18 @@ void tomarCarta(Stack *baraja, ManoCartas *mano)
     mano->sumaValor += 10;
   else if (!strcmp(carta->valor, "A"))
   {
-    mano->sumaValor += 11;
-    mano->numAses +=1; // Incrementa el número de Ases
+    // Se ajusta el puntaje de los ases (11 puntos por defecto) de acuerdo al valor de la mano
+    // Si la mano es mayor a 21, se le resta 10 al puntaje de los ases
+    if (mano->sumaValor + 11 > 21)
+      mano->sumaValor += 1;
+    // Si la mano es menor o igual a 21, se mantiene el puntaje de los ases
+    else if (mano->sumaValor + 11 <= 21)
+      mano->sumaValor += 11;
+    else // Si la mano siempre es mayor a 21, se mantiene el puntaje de los ases
+      mano->sumaValor += 11;
   }
   else
     mano->sumaValor += atoi(carta->valor);
-
-  // Ajusta el valor de los Ases si la suma es mayor que 21
-  while (mano->sumaValor > 21 && mano->numAses > 0) 
-  {
-    mano->sumaValor -= 10;
-    mano->numAses -= 1;
-  }
 }
 
 // Funcion encargada de crear una nueva mano de cartas
