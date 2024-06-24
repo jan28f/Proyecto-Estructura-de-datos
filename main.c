@@ -20,7 +20,6 @@ typedef struct
 {
   List *cartas;
   int sumaValor;
-  int numAses;
 } ManoCartas;
 
 // Funcion para comparar el valor de 2 claves
