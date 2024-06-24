@@ -201,35 +201,44 @@ Stack *iniciarBaraja()
   return stack; // Retorna el stack con todas las cartas de la baraja
 }
 
-// Función para determinar el ganador del juego
-int determinarGanador(ManoCartas *jugador, ManoCartas *crupier)
+// Función para determinar el ganador
+int determinarGanador(ManoCartas *jugador, ManoCartas *crupier) 
 {
-  if (jugador->sumaValor > 21)
-  {
-    printf("¡Has perdido! Te has pasado de 21.\n");
-    return 1; // Juego terminado
-  }
-  else if (crupier->sumaValor > 21)
-  {
-    printf("¡Has ganado! El crupier se ha pasado de 21.\n");
-    return 1; // Juego terminado
-  }
-  else if (jugador->sumaValor > crupier->sumaValor)
-  {
-    printf("¡Has ganado! Tu puntaje es mayor que el del crupier.\n");
-    return 1; // Juego terminado
-  }
-  else if (jugador->sumaValor < crupier->sumaValor)
-  {
-    printf("¡Has perdido! El puntaje del crupier es mayor que el tuyo.\n");
-    return 1; // Juego terminado
-  }
-  else if (jugador->sumaValor == crupier->sumaValor)
-  {
-    printf("¡Es un empate!\n");
-    return 1; // Juego terminado
-  }
-  return 0; // El juego continúa
+    if (jugador->sumaValor > 21) 
+    {
+        printf("Te has pasado de 21. Has perdido.\n");
+        return 1;
+    } 
+    else if (crupier->sumaValor > 21) 
+    {
+        printf("El crupier se ha pasado de 21. Has ganado.\n");
+        return 1;
+    }
+    else if (jugador->sumaValor == 21) 
+    {
+        printf("¡Blackjack! Has ganado.\n");
+        return 1;
+    } 
+    else if (crupier->sumaValor == 21) {
+        printf("El crupier ha conseguido un Blackjack. Has perdido.\n");
+        return 1;
+    } 
+    else if (jugador->sumaValor == crupier->sumaValor) 
+    {
+        printf("Empate.\n");
+        return 1;
+    } 
+    else if (jugador->sumaValor > crupier->sumaValor) 
+    {
+        printf("Tienes un puntaje mayor. Has ganado.\n");
+        return 1;
+    } 
+    else if (crupier->sumaValor > jugador->sumaValor) 
+    {
+        printf("El crupier tiene un puntaje mayor. Has perdido.\n");
+        return 1;
+    }
+    return 0; // El juego continua
 }
 
 void iniciarPartida()
