@@ -1,10 +1,9 @@
-compile = ["make", "-s"]
 run = "./main"
-entrypoint = "main.c"
 hidden = ["main", "main-debug", "**/*.o", "**/*.d", ".ccls-cache", "Makefile"]
+modules = ["c-clang14", "cpp-clang14", "nix"]
 
 [nix]
-channel = "stable-22_11"
+channel = "stable-23_11"
 
 [gitHubImport]
 requiredFiles = [".replit", "replit.nix", ".ccls-cache"]
@@ -66,3 +65,6 @@ pattern = "**/*.{c,h}"
 
 [languages.c.languageServer]
 start = "ccls"
+
+[deployment]
+run = ["sh", "-c", "./main"]
