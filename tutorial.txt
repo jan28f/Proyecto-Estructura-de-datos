@@ -1,0 +1,17 @@
+===============================
+========== TUTORIAL ===========
+===============================
+
+Bienvenido al tutorial de Blackjack!
+
+Reglas basicas del Blackjack:
+1. El objetivo del juego es obtener una mano con un valor lo más cercano posible a 21, sin pasarse.
+2. Las cartas numéricas (2-10) valen su valor nominal.
+3. Las cartas con figuras (J, Q, K) valen 10 puntos cada una.
+4. Los Ases pueden valer 1 u 11, dependiendo de cuál sea más beneficioso para tu mano.
+5. Si tu mano supera los 21 puntos, pierdes automáticamente.
+6. Puedes optar por 'Pedir' una nueva carta o 'Plantarte' para mantener tu mano actual.
+7. El crupier debe seguir ciertas reglas para pedir cartas (esperar hasta que te plantes para el jugar).
+8. Si ambos jugadores tienen manos que no pasan de 21, gana el que tenga la mano con el valor más cercano a 21.
+
+¡Disfruta del juego!

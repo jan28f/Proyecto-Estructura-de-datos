@@ -20,6 +20,7 @@ typedef struct
 {
   List *cartas;
   int sumaValor;
+  int numAses;
 } ManoCartas;
 
 // Funcion para comparar el valor de 2 claves
@@ -40,8 +41,10 @@ void infoPartida(ManoCartas *jugador, ManoCartas *crupier, int turnoCrupier)
   printf("===============================\n\n");
   
   // Se muestra el puntaje del jugador
+  
   printf("Tu puntaje: %i\n", jugador->sumaValor);
   printf("Tus cartas: \n\n");
+  
   // Se muestran las cartas del jugador
   Carta *carta = (Carta *)list_first(jugador->cartas);
   while (carta != NULL)
@@ -52,13 +55,17 @@ void infoPartida(ManoCartas *jugador, ManoCartas *crupier, int turnoCrupier)
   printf("\n");
   
   printf("Puntaje del Crupier: ");
-  if (turnoCrupier) // Si es el turno del crupier
+  if (turnoCrupier) 
+    // Si es el turno del crupier
     printf("%i\n", crupier->sumaValor);
-  else // Si no es el turno del crupier
+  else 
+    // Si no es el turno del crupier
     printf("?\n");
+  
   // Se muestran las cartas del crupier
   printf("Cartas del Crupier: \n\n");
   carta = (Carta *)list_first(crupier->cartas);
+  
   if (turnoCrupier) // Si es el turno del crupier
   {
     // Se muestran todas sus cartas
@@ -68,6 +75,7 @@ void infoPartida(ManoCartas *jugador, ManoCartas *crupier, int turnoCrupier)
       carta = (Carta *)list_next(crupier->cartas);
     }
   }
+    
   else // Si no es el turno del crupier
   {
     // Se muestra una carta y se oculta la ultima
@@ -93,9 +101,19 @@ void tomarCarta(Stack *baraja, ManoCartas *mano)
   if (!strcmp(carta->valor, "J") || !strcmp(carta->valor, "Q") || !strcmp(carta->valor, "K"))
     mano->sumaValor += 10;
   else if (!strcmp(carta->valor, "A"))
+  {
     mano->sumaValor += 11;
+    mano->numAses +=1; // Incrementa el número de Ases
+  }
   else
     mano->sumaValor += atoi(carta->valor);
+
+  // Ajusta el valor de los Ases si la suma es mayor que 21
+  while (mano->sumaValor > 21 && mano->numAses > 0) 
+  {
+    mano->sumaValor -= 10;
+    mano->numAses -= 1;
+  }
 }
 
 // Funcion encargada de crear una nueva mano de cartas
@@ -106,6 +124,7 @@ ManoCartas *crearMano()
   // Inicializa los valores de la mano de cartas
   mano->cartas = list_create();
   mano->sumaValor = 0;
+  mano->numAses = 0;
 
   return mano; // Retorna la mano de cartas
 }
@@ -261,6 +280,20 @@ void iniciarPartida()
   // Muestra las cartas iniciales del jugador y de la maquina
 }
 
+void mostrarTutorial() {
+  FILE *archivo = fopen("tutorial.txt", "r");
+  if (archivo == NULL) {
+    printf("Error al abrir el archivo de tutorial.\n");
+    return;
+  }
+  char linea[256];
+  while (fgets(linea, sizeof(linea), archivo) != NULL) {
+    printf("%s", linea);
+  }
+  printf("\n");
+  fclose(archivo);
+}
+
 int main()
 {
   char opcion;
@@ -275,7 +308,7 @@ int main()
       puts("3) Salir");
 
       printf("\nIngrese su opción: ");
-      scanf("%c", &opcion);
+      scanf(" %c", &opcion);
 
       switch (opcion)
       {
@@ -283,7 +316,7 @@ int main()
           iniciarPartida();
           break;
         case '2':
-          //tutorial();
+          mostrarTutorial();
           break;
         case '3':
           printf("Saliendo del programa...\n");
@@ -298,5 +331,3 @@ int main()
 
   return 0;
 }
-
-//PRUEBAaaaaaaaaaaasssssss
