@@ -270,51 +270,31 @@ void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
 
 void iniciarPartida()
 {
-  limpiarPantalla();
-
   // Inicializa la baraja de cartas inglesas y la revuelve
   Stack *baraja = iniciarBaraja();
   revolverBaraja(baraja);
-  
-  int i = 1;
-  /*while (stack_top(baraja) != NULL)
-  {
-    Carta *carta = (Carta *)stack_pop(baraja);
-    printf("%s %s %i\n", carta->palo, carta->valor, i);
-    i++;
-  }*/
 
   // Inicializa las manos del jugador y del crupier
   ManoCartas *manoJugador = crearMano();
   ManoCartas *manoCrupier = crearMano();
 
   // Reparte las cartas iniciales al jugador y al crupier
-  for (int i = 0 ; i < 2 ; i++)
+  for (int i = 0; i < 2; i++)
   {
     // Saca una carta de la baraja y la almacena en la mano del jugador
-    tomarCarta(baraja, manoJugador, 1);
+    tomarCarta(baraja, manoJugador, 1, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
-    tomarCarta(baraja, manoCrupier, 0);
+    tomarCarta(baraja, manoCrupier, 0, 1);
   }
 
-  printf("Mano jugador: %i\n", manoJugador->sumaValor);
-  printf("Mano crupier: %i\n", manoCrupier->sumaValor);
-
- 
-  //Muestra baraja revuelta
-  /*printf("Baraja revuelta:\n");
-  int i = 1;
-  Carta *carta = (Carta *)stack_top(baraja);
-  while (carta != NULL)
+  // Verifica si las dos primeras cartas del jugador suman 21 (BlackJack)
+  if (manoJugador->sumaValor == 21)
   {
-    //Carta *carta = (Carta *)stack_top(baraja);
-    printf("%s %s %i\n", carta->palo, carta->valor, i);
-    //stack_pop(baraja);
-    carta = (Carta *)list_next(baraja);
-    i++;
-  }*/
+    infoPartida(manoJugador, manoCrupier, 0);
+    printf("\n¡BlackJack! ¡Ganaste con 21!\n");
+    return;
+  }
 
-  
   char opcion;
   do
   {
@@ -324,27 +304,36 @@ void iniciarPartida()
     puts("1) Tomar carta");
     puts("2) Mantener");
     puts("3) Retirarse");
-    
+
     printf("Ingrese su opción: ");
     getchar(); // Consume el '\n' del buffer de entrada
-    scanf("%c", &opcion);
+    scanf(" %c", &opcion);
 
     switch (opcion)
     {
       case '1':
-        tomarCarta(baraja, manoJugador, 1);
-        printf("Se ha agregado una carta a tu mano\n");
+        tomarCarta(baraja, manoJugador, 1, 0);
+        if (manoJugador->sumaValor >= 21)
+        {
+          verificarGanador(manoJugador, manoCrupier);
+          return;
+        }
         break;
       case '2':
-        printf("Has mantenido tu mano\n");
-        printf("Comienza el turno del crupier\n");
-        break;
-      case '3':
-        printf("Has retirado de la partida, perdiste\n");
+        printf("\nHas mantenido tu mano. Comienza el turno del crupier.\n");
+        while (manoCrupier->sumaValor < 17)
+        {
+          tomarCarta(baraja, manoCrupier, 0, 0);
+        }
+        verificarGanador(manoJugador, manoCrupier);
         return;
+      case '3':
+        printf("\nTe has retirado de la partida. Pierdes.\n");
+        return;
+      default:
+        printf("\nOpción inválida. Inténtalo de nuevo.\n");
     }
   } while (opcion != '2');
-  // Muestra las cartas iniciales del jugador y de la maquina
 }
 
 // Funcion encargada de leer y mostrar el archivo de texto con las instrucciones del juego
