@@ -268,6 +268,18 @@ void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
   }
 }
 
+void liberarRecursos(Stack *baraja, ManoCartas *manoJugador, ManoCartas *manoCrupier)
+{
+  stack_clean(baraja);
+  free(baraja);
+  list_clean(manoJugador->cartas);
+  free(manoJugador->cartas);
+  free(manoJugador);
+  list_clean(manoCrupier->cartas);
+  free(manoCrupier->cartas);
+  free(manoCrupier);
+}
+
 void iniciarPartida()
 {
   // Inicializa la baraja de cartas inglesas y la revuelve
@@ -285,6 +297,7 @@ void iniciarPartida()
     tomarCarta(baraja, manoJugador, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
     tomarCarta(baraja, manoCrupier, 0);
+    infoPartida(manoJugador, manoCrupier, 0);
   }
 
   // Verifica si las dos primeras cartas del jugador suman 21 (BlackJack)
