@@ -365,10 +365,10 @@ void mostrarTutorial()
 {
   limpiarPantalla();
   // Se abre el archivo de texto con las instrucciones del juego
-  FILE *archivo = fopen("tutorial.txt", "r");
+  FILE *archivo = fopen("Instrucciones.txt", "r");
   if (archivo == NULL) // Si no se encuentra el archivo de texto
   {
-    printf("Error al abrir el archivo de tutorial.\n");
+    printf("Error al abrir el archivo del tutorial.\n");
     return; // Se finaliza la funcion
   }
 

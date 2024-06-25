@@ -268,6 +268,23 @@ void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
   }
 }
 
+/* Funcion encargada de liberar toda la memoria dinamica reservada en las variables
+   barajas, manoJugador y manoCrupier*/
+void liberarRecursos(Stack *baraja, ManoCartas *manoJugador, ManoCartas *manoCrupier)
+{
+  // Liberar la memoria de las cartas en la baraja
+  stack_clean(baraja);
+  free(baraja);
+  // Liberar la memoria de las cartas en la mano del jugador
+  list_clean(manoJugador->cartas);
+  free(manoJugador->cartas);
+  free(manoJugador);
+  // Liberar la memoria de las cartas en la mano del crupier
+  list_clean(manoCrupier->cartas);
+  free(manoCrupier->cartas);
+  free(manoCrupier);
+}
+
 void iniciarPartida()
 {
   // Inicializa la baraja de cartas inglesas y la revuelve
@@ -285,6 +302,7 @@ void iniciarPartida()
     tomarCarta(baraja, manoJugador, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
     tomarCarta(baraja, manoCrupier, 0);
+    infoPartida(manoJugador, manoCrupier, 0);
   }
 
   // Verifica si las dos primeras cartas del jugador suman 21 (BlackJack)
@@ -292,6 +310,8 @@ void iniciarPartida()
   {
     infoPartida(manoJugador, manoCrupier, 0);
     printf("\n¡BlackJack! ¡Ganaste con 21!\n");
+    // Se libera la memoria dinamica reservada durante la partida
+    liberarRecursos(baraja, manoJugador, manoCrupier);
     return;
   }
 
@@ -316,6 +336,8 @@ void iniciarPartida()
         if (manoJugador->sumaValor >= 21)
         {
           verificarGanador(manoJugador, manoCrupier);
+          // Se libera la memoria dinamica reservada durante la partida
+          liberarRecursos(baraja, manoJugador, manoCrupier);
           return;
         }
         break;
@@ -326,6 +348,8 @@ void iniciarPartida()
           tomarCarta(baraja, manoCrupier, 0);
         }
         verificarGanador(manoJugador, manoCrupier);
+        // Se libera la memoria dinamica reservada durante la partida
+        liberarRecursos(baraja, manoJugador, manoCrupier);
         return;
       case '3':
         printf("\nTe has retirado de la partida. Pierdes.\n");
@@ -341,10 +365,10 @@ void mostrarTutorial()
 {
   limpiarPantalla();
   // Se abre el archivo de texto con las instrucciones del juego
-  FILE *archivo = fopen("tutorial.txt", "r");
+  FILE *archivo = fopen("Instrucciones.txt", "r");
   if (archivo == NULL) // Si no se encuentra el archivo de texto
   {
-    printf("Error al abrir el archivo de tutorial.\n");
+    printf("Error al abrir el archivo del tutorial.\n");
     return; // Se finaliza la funcion
   }
 
