@@ -268,13 +268,18 @@ void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
   }
 }
 
+/* Funcion encargada de liberar toda la memoria dinamica reservada en las variables
+   barajas, manoJugador y manoCrupier*/
 void liberarRecursos(Stack *baraja, ManoCartas *manoJugador, ManoCartas *manoCrupier)
 {
+  // Liberar la memoria de las cartas en la baraja
   stack_clean(baraja);
   free(baraja);
+  // Liberar la memoria de las cartas en la mano del jugador
   list_clean(manoJugador->cartas);
   free(manoJugador->cartas);
   free(manoJugador);
+  // Liberar la memoria de las cartas en la mano del crupier
   list_clean(manoCrupier->cartas);
   free(manoCrupier->cartas);
   free(manoCrupier);
@@ -305,6 +310,7 @@ void iniciarPartida()
   {
     infoPartida(manoJugador, manoCrupier, 0);
     printf("\n¡BlackJack! ¡Ganaste con 21!\n");
+    // Se libera la memoria dinamica reservada durante la partida
     liberarRecursos(baraja, manoJugador, manoCrupier);
     return;
   }
@@ -330,6 +336,7 @@ void iniciarPartida()
         if (manoJugador->sumaValor >= 21)
         {
           verificarGanador(manoJugador, manoCrupier);
+          // Se libera la memoria dinamica reservada durante la partida
           liberarRecursos(baraja, manoJugador, manoCrupier);
           return;
         }
@@ -341,6 +348,7 @@ void iniciarPartida()
           tomarCarta(baraja, manoCrupier, 0);
         }
         verificarGanador(manoJugador, manoCrupier);
+        // Se libera la memoria dinamica reservada durante la partida
         liberarRecursos(baraja, manoJugador, manoCrupier);
         return;
       case '3':
