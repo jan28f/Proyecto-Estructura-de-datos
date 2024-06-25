@@ -305,6 +305,7 @@ void iniciarPartida()
   {
     infoPartida(manoJugador, manoCrupier, 0);
     printf("\n¡BlackJack! ¡Ganaste con 21!\n");
+    liberarRecursos(baraja, manoJugador, manoCrupier);
     return;
   }
 
@@ -329,6 +330,7 @@ void iniciarPartida()
         if (manoJugador->sumaValor >= 21)
         {
           verificarGanador(manoJugador, manoCrupier);
+          liberarRecursos(baraja, manoJugador, manoCrupier);
           return;
         }
         break;
@@ -339,6 +341,7 @@ void iniciarPartida()
           tomarCarta(baraja, manoCrupier, 0);
         }
         verificarGanador(manoJugador, manoCrupier);
+        liberarRecursos(baraja, manoJugador, manoCrupier);
         return;
       case '3':
         printf("\nTe has retirado de la partida. Pierdes.\n");
