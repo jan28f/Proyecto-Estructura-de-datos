@@ -284,7 +284,7 @@ void iniciarPartida()
     // Saca una carta de la baraja y la almacena en la mano del jugador
     tomarCarta(baraja, manoJugador, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
-    tomarCarta(baraja, manoCrupier, 0;
+    tomarCarta(baraja, manoCrupier, 0);
   }
 
   // Verifica si las dos primeras cartas del jugador suman 21 (BlackJack)
