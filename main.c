@@ -282,9 +282,9 @@ void iniciarPartida()
   for (int i = 0; i < 2; i++)
   {
     // Saca una carta de la baraja y la almacena en la mano del jugador
-    tomarCarta(baraja, manoJugador, 1, 1);
+    tomarCarta(baraja, manoJugador, 1);
     // Saca una carta de la baraja y la almacena en la mano del crupier
-    tomarCarta(baraja, manoCrupier, 0, 1);
+    tomarCarta(baraja, manoCrupier, 0;
   }
 
   // Verifica si las dos primeras cartas del jugador suman 21 (BlackJack)
@@ -312,7 +312,7 @@ void iniciarPartida()
     switch (opcion)
     {
       case '1':
-        tomarCarta(baraja, manoJugador, 1, 0);
+        tomarCarta(baraja, manoJugador, 1);
         if (manoJugador->sumaValor >= 21)
         {
           verificarGanador(manoJugador, manoCrupier);
@@ -323,7 +323,7 @@ void iniciarPartida()
         printf("\nHas mantenido tu mano. Comienza el turno del crupier.\n");
         while (manoCrupier->sumaValor < 17)
         {
-          tomarCarta(baraja, manoCrupier, 0, 0);
+          tomarCarta(baraja, manoCrupier, 0);
         }
         verificarGanador(manoJugador, manoCrupier);
         return;
