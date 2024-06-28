@@ -141,13 +141,16 @@ ManoCartas *crearMano()
 }
 
 // Función para comprobar si una clave ya está en el arreglo, osea, que ya está en el mapa
-int claveExistente(int *arreglo, int tamaño, int num) {
+int claveExistente(int *arreglo, int tamaño, int num)
+{
+  // Se recorre el arreglo
   for (int i = 0; i < tamaño; i++) {
-    if (arreglo[i] == num) {
-      return 1;
+    if (arreglo[i] == num) { // Si el numero en el arreglo es igual al numero que se busca
+      return 1; // Se retorna 1 si se encontro
     }
   }
-  return 0;
+  
+  return 0; // Se retorna 0 si no se encontro
 }
 
 // Funcion encargada de revolver una baraja de cartas
