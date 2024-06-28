@@ -113,6 +113,7 @@ void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
         printf("Valor inválido, ingresa 1 o 11\n");
         scanf("%d", &valorAs);
       }
+      // Se suma el puntaje escogido por el jugador
       mano->sumaValor += valorAs;
     }
     else // Si es el turno del crupier
@@ -123,7 +124,7 @@ void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
         mano->sumaValor += 11;
     }
   }
-  else
+  else // Se suma el valor de la carta a la mano
     mano->sumaValor += atoi(carta->valor);
 }
 
