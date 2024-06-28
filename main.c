@@ -217,6 +217,8 @@ Stack *iniciarBaraja()
   return stack; // Retorna el stack con todas las cartas de la baraja
 }
 
+/* Funcion encargada de comparar los puntajes de las manos del jugador y del crupier
+   y determinar quien gana la partida de Blackjack*/
 void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
 {
   // Mostrar puntajes finales
