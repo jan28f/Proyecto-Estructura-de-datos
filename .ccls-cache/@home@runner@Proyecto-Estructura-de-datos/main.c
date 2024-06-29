@@ -4,7 +4,6 @@
 #include "tdas/stack.h"
 #include "tdas/extra.h"
 #include "tdas/map.h"
-#include "tdas/treemap.h"
 #include <string.h>
 #include <time.h>
 
@@ -113,6 +112,7 @@ void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
         printf("Valor inválido, ingresa 1 o 11\n");
         scanf("%d", &valorAs);
       }
+      // Se suma el puntaje escogido por el jugador
       mano->sumaValor += valorAs;
     }
     else // Si es el turno del crupier
@@ -123,7 +123,7 @@ void tomarCarta(Stack *baraja, ManoCartas *mano, int turno)
         mano->sumaValor += 11;
     }
   }
-  else
+  else // Se suma el valor de la carta a la mano
     mano->sumaValor += atoi(carta->valor);
 }
 
@@ -140,13 +140,16 @@ ManoCartas *crearMano()
 }
 
 // Función para comprobar si una clave ya está en el arreglo, osea, que ya está en el mapa
-int claveExistente(int *arreglo, int tamaño, int num) {
+int claveExistente(int *arreglo, int tamaño, int num)
+{
+  // Se recorre el arreglo
   for (int i = 0; i < tamaño; i++) {
-    if (arreglo[i] == num) {
-      return 1;
+    if (arreglo[i] == num) { // Si el numero en el arreglo es igual al numero que se busca
+      return 1; // Se retorna 1 si se encontro
     }
   }
-  return 0;
+  
+  return 0; // Se retorna 0 si no se encontro
 }
 
 // Funcion encargada de revolver una baraja de cartas
@@ -213,6 +216,8 @@ Stack *iniciarBaraja()
   return stack; // Retorna el stack con todas las cartas de la baraja
 }
 
+/* Funcion encargada de comparar los puntajes de las manos del jugador y del crupier
+   y determinar quien gana la partida de Blackjack*/
 void verificarGanador(ManoCartas *jugador, ManoCartas *crupier)
 {
   // Mostrar puntajes finales
