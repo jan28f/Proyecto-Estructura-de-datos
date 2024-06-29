@@ -211,7 +211,7 @@ verificarGanador(manoJugador, manoCrupier);
 ### Benjamin
 
 1. Implementacion de las funciones principales junto con Hans.
-2. Ideacion de las funciones junto con Benjamin.
+2. Ideacion de las funciones junto con Hans.
 3. Ideacion y implementacion de los menus de juego junto a Hans.
 4. Implementacion de las funciones del juego.
 
@@ -219,6 +219,6 @@ verificarGanador(manoJugador, manoCrupier);
 
 1. Implementacion de las estructuras de datos **Carta** y **ManoCartas** junto con Hans.
 2. Encargado de encontrar los errores durante las implementaciones y solucionarlos.
-3. Implementacion de las funciones.
+3. Implementacion de las funciones del juego.
 
 **Aplicacion desarrollada por Hans Silva Gonzalez, Benjamin Leiva Caceres, Martin Basulto Nazir, Mario Osvaldo Rojas**
